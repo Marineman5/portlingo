@@ -25,7 +25,6 @@ const GameScreen: React.FC = () => {
   const queryParams = new URLSearchParams(location.search);
   const characterId = queryParams.get('character');
 
-  const [allTerms, setAllTerms] = useState<Term[]>([]);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [score, setScore] = useState(0);
@@ -33,7 +32,7 @@ const GameScreen: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isAnswered, setIsAnswered] = useState(false);
   const [timeLeft, setTimeLeft] = useState(TIME_LIMIT);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const timerRef = useRef<number | null>(null); // Changed NodeJS.Timeout to number
 
   const characterNames: { [key: string]: string } = {
     supervisor: '監督',
@@ -46,7 +45,7 @@ const GameScreen: React.FC = () => {
     fetch('/terms.json')
       .then(res => res.json())
       .then(data => {
-        setAllTerms(data);
+        // setAllTerms(data); // Removed as it's not used
         generateQuestions(data);
       });
   }, []);
